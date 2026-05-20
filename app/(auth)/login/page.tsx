@@ -29,15 +29,15 @@ export default function LoginPage() {
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-10 w-full max-w-md text-center">
         {/* Logo */}
         <div className="mb-8 flex flex-col items-center">
-          <Image
+          {/* <Image
             src="/logo_dark_bg.png"
             alt="Paprwork"
             width={250}
             height={44}
             priority
             loading="eager"
-            className="mb-3 block dark:hidden"
-          />
+            className="mb-3 block"
+          /> */}
           <Image
             src="/logo_white_bg.png"
             alt="Paprwork"
@@ -45,7 +45,7 @@ export default function LoginPage() {
             height={44}
             priority
             loading="eager"
-            className="mb-3 hidden dark:block"
+            className="mb-3"
           />
           {/* <p className="text-gray-500 mt-1 text-sm">
             Freelance invoicing — without the faff
