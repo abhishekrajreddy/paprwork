@@ -197,7 +197,7 @@ export default function NewInvoicePage() {
         {/* Invoice details */}
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
           <h2 className="font-semibold text-gray-900 mb-4">Invoice Details</h2>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1.5">
                 Invoice Number
@@ -264,7 +264,7 @@ export default function NewInvoicePage() {
 
           <div className="space-y-3">
             {/* Column headers */}
-            <div className="grid grid-cols-12 gap-3 text-xs font-medium text-gray-500 uppercase tracking-wide px-1">
+            <div className="hidden sm:grid grid-cols-12 gap-3 text-xs font-medium text-gray-500 uppercase tracking-wide px-1">
               <div className="col-span-5">Description</div>
               <div className="col-span-2 text-center">Qty</div>
               <div className="col-span-2 text-center">Rate (£)</div>
@@ -273,64 +273,97 @@ export default function NewInvoicePage() {
             </div>
 
             {items.map((item, index) => (
-              <div key={index} className="grid grid-cols-12 gap-3 items-center">
-                <div className="col-span-5">
-                  <input
-                    type="text"
-                    value={item.description}
-                    onChange={(e) =>
-                      handleItemChange(index, "description", e.target.value)
-                    }
-                    placeholder="e.g. Frontend development"
-                    required
-                    className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-                <div className="col-span-2">
-                  <input
-                    type="number"
-                    value={item.quantity}
-                    min={1}
-                    onChange={(e) =>
-                      handleItemChange(index, "quantity", e.target.value)
-                    }
-                    onFocus={(e) => e.target.select()}
-                    className={`w-full px-3 py-2 border rounded-xl text-sm text-gray-900 text-center focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-  (parseFloat(String(item.rate)) || 0) <= 0
-    ? 'border-red-300 bg-red-50'
-    : 'border-gray-200'
-}`}
-                  />
-                </div>
-                <div className="col-span-2">
-                  <input
-                    type="number"
-                    value={item.rate}
-                    min={0}
-                    step={0.01}
-                    onChange={(e) =>
-                      handleItemChange(index, "rate", e.target.value)
-                    }
-                    onFocus={(e) => e.target.select()}
-                    className={`w-full px-3 py-2 border rounded-xl text-sm text-gray-900 text-center focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-  (parseFloat(String(item.rate)) || 0) <= 0
-    ? 'border-red-300 bg-red-50'
-    : 'border-gray-200'
-}`}
-                  />
-                </div>
-                <div className="col-span-2 text-sm font-medium text-gray-900 text-center">
-                  £{item.amount.toFixed(2)}
-                </div>
-                <div className="col-span-1 flex justify-center">
-                  <button
-                    type="button"
-                    onClick={() => removeItem(index)}
-                    disabled={items.length === 1}
-                    className="text-gray-300 hover:text-red-500 disabled:opacity-30 transition-colors text-lg"
-                  >
-                    ×
-                  </button>
+              <div
+                key={index}
+                className="border border-gray-100 rounded-xl p-3 sm:p-0 sm:border-0"
+              >
+                {/* Mobile label */}
+                <p className="text-xs font-medium text-gray-500 mb-2 sm:hidden">
+                  Item {index + 1}
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-12 gap-2 sm:gap-3 sm:items-center">
+                  <div className="sm:col-span-5">
+                    <input
+                      type="text"
+                      value={item.description}
+                      onChange={(e) =>
+                        handleItemChange(index, "description", e.target.value)
+                      }
+                      placeholder="e.g. Frontend development"
+                      required
+                      className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                  <div className="grid grid-cols-3 gap-2 sm:contents">
+                    <div className="sm:col-span-2">
+                      <label className="block text-xs text-gray-400 mb-1 sm:hidden">
+                        Qty
+                      </label>
+                      <input
+                        type="number"
+                        value={item.quantity}
+                        min={1}
+                        onChange={(e) =>
+                          handleItemChange(index, "quantity", e.target.value)
+                        }
+                        onFocus={(e) => e.target.select()}
+                        className={`w-full px-3 py-2 border rounded-xl text-sm text-gray-900 text-center focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                          (parseFloat(String(item.quantity)) || 0) <= 0
+                            ? "border-red-300 bg-red-50"
+                            : "border-gray-200"
+                        }`}
+                      />
+                    </div>
+                    <div className="sm:col-span-2">
+                      <label className="block text-xs text-gray-400 mb-1 sm:hidden">
+                        Rate (£)
+                      </label>
+                      <input
+                        type="number"
+                        value={item.rate}
+                        min={0}
+                        step={0.01}
+                        onChange={(e) =>
+                          handleItemChange(index, "rate", e.target.value)
+                        }
+                        onFocus={(e) => e.target.select()}
+                        className={`w-full px-3 py-2 border rounded-xl text-sm text-gray-900 text-center focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                          (parseFloat(String(item.rate)) || 0) <= 0
+                            ? "border-red-300 bg-red-50"
+                            : "border-gray-200"
+                        }`}
+                      />
+                    </div>
+                    <div className="sm:col-span-2 flex items-center justify-between sm:justify-center gap-2">
+                      <div>
+                        <label className="block text-xs text-gray-400 mb-1 sm:hidden">
+                          Amount
+                        </label>
+                        <p className="text-sm font-medium text-gray-900 text-center">
+                          £{item.amount.toFixed(2)}
+                        </p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => removeItem(index)}
+                        disabled={items.length === 1}
+                        className="sm:hidden text-gray-300 hover:text-red-500 disabled:opacity-30 transition-colors text-xl"
+                      >
+                        ×
+                      </button>
+                    </div>
+                  </div>
+                  {/* Desktop remove button */}
+                  <div className="hidden sm:flex sm:col-span-1 justify-center">
+                    <button
+                      type="button"
+                      onClick={() => removeItem(index)}
+                      disabled={items.length === 1}
+                      className="text-gray-300 hover:text-red-500 disabled:opacity-30 transition-colors text-lg"
+                    >
+                      ×
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}

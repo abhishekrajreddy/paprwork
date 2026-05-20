@@ -1,23 +1,27 @@
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
-import connectDB from '@/lib/mongodb';
-import Client from '@/models/Client';
-import Link from 'next/link';
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import connectDB from "@/lib/mongodb";
+import Client from "@/models/Client";
+import Link from "next/link";
 
 export default async function ClientsPage() {
   const session = await getServerSession(authOptions);
   await connectDB();
 
-  const clients = await Client.find({ userId: session!.user.id }).sort({ createdAt: -1 });
+  const clients = await Client.find({ userId: session!.user.id }).sort({
+    createdAt: -1,
+  });
 
   return (
     <div>
       {/* Header */}
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Clients</h1>
+          <h1 className="text-xl lg:text-2xl font-bold text-gray-900">
+            Clients
+          </h1>
           <p className="text-gray-500 mt-1 text-sm">
-            {clients.length} client{clients.length !== 1 ? 's' : ''} total
+            {clients.length} client{clients.length !== 1 ? "s" : ""} total
           </p>
         </div>
         <Link

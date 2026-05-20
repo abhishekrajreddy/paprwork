@@ -41,7 +41,7 @@ export default async function InvoicePage({
   return (
     <div className="max-w-3xl">
       {/* Header */}
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div>
           <Link
             href="/invoices"
@@ -73,7 +73,7 @@ export default async function InvoicePage({
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
         {/* Top section */}
         <div className="p-6 border-b border-gray-100">
-          <div className="flex justify-between">
+          <div className="flex flex-col sm:flex-row sm:justify-between gap-4">
             <div>
               <h2 className="text-2xl font-bold text-gray-900">
                 Papr<span className="text-blue-600">work</span>
@@ -110,7 +110,7 @@ export default async function InvoicePage({
 
         {/* Line items */}
         <div className="p-6">
-          <div className="grid grid-cols-12 gap-3 text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">
+          <div className="hidden sm:grid grid-cols-12 gap-3 text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">
             <div className="col-span-6">Description</div>
             <div className="col-span-2 text-center">Qty</div>
             <div className="col-span-2 text-center">Rate</div>
@@ -119,21 +119,35 @@ export default async function InvoicePage({
 
           <div className="space-y-2">
             {invoiceData.items.map((item: any, index: number) => (
-              <div
-                key={index}
-                className="grid grid-cols-12 gap-3 py-2 border-b border-gray-50"
-              >
-                <div className="col-span-6 text-sm text-gray-900">
-                  {item.description}
+              <div key={index} className="py-3 border-b border-gray-50">
+                {/* Mobile layout */}
+                <div className="sm:hidden">
+                  <p className="text-sm text-gray-900 font-medium mb-1">
+                    {item.description}
+                  </p>
+                  <div className="flex justify-between text-xs text-gray-500">
+                    <span>
+                      {item.quantity} × {formatCurrency(item.rate)}
+                    </span>
+                    <span className="font-semibold text-gray-900">
+                      {formatCurrency(item.amount)}
+                    </span>
+                  </div>
                 </div>
-                <div className="col-span-2 text-sm text-gray-600 text-center">
-                  {item.quantity}
-                </div>
-                <div className="col-span-2 text-sm text-gray-600 text-center">
-                  {formatCurrency(item.rate)}
-                </div>
-                <div className="col-span-2 text-sm font-medium text-gray-900 text-right">
-                  {formatCurrency(item.amount)}
+                {/* Desktop layout */}
+                <div className="hidden sm:grid grid-cols-12 gap-3">
+                  <div className="col-span-6 text-sm text-gray-900">
+                    {item.description}
+                  </div>
+                  <div className="col-span-2 text-sm text-gray-600 text-center">
+                    {item.quantity}
+                  </div>
+                  <div className="col-span-2 text-sm text-gray-600 text-center">
+                    {formatCurrency(item.rate)}
+                  </div>
+                  <div className="col-span-2 text-sm font-medium text-gray-900 text-right">
+                    {formatCurrency(item.amount)}
+                  </div>
                 </div>
               </div>
             ))}

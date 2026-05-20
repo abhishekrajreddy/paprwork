@@ -1,10 +1,10 @@
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
-import connectDB from '@/lib/mongodb';
-import Invoice from '@/models/Invoice';
-import Client from '@/models/Client';
-import { formatCurrency } from '@/lib/utils';
-import Link from 'next/link';
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import connectDB from "@/lib/mongodb";
+import Invoice from "@/models/Invoice";
+import Client from "@/models/Client";
+import { formatCurrency } from "@/lib/utils";
+import Link from "next/link";
 
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
@@ -16,45 +16,48 @@ export default async function DashboardPage() {
   ]);
 
   const totalRevenue = invoices
-    .filter((inv) => inv.status === 'paid')
+    .filter((inv) => inv.status === "paid")
     .reduce((sum, inv) => sum + inv.total, 0);
 
   const pendingAmount = invoices
-    .filter((inv) => inv.status === 'pending')
+    .filter((inv) => inv.status === "pending")
     .reduce((sum, inv) => sum + inv.total, 0);
 
   const overdueAmount = invoices
-    .filter((inv) => inv.status === 'overdue')
+    .filter((inv) => inv.status === "overdue")
     .reduce((sum, inv) => sum + inv.total, 0);
 
   const recentInvoices = invoices
-    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+    .sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+    )
     .slice(0, 5);
 
   const stats = [
     {
-      label: 'Total Revenue',
+      label: "Total Revenue",
       value: formatCurrency(totalRevenue),
-      icon: '💷',
-      color: 'bg-green-50 text-green-700',
+      icon: "💷",
+      color: "bg-green-50 text-green-700",
     },
     {
-      label: 'Pending',
+      label: "Pending",
       value: formatCurrency(pendingAmount),
-      icon: '⏳',
-      color: 'bg-yellow-50 text-yellow-700',
+      icon: "⏳",
+      color: "bg-yellow-50 text-yellow-700",
     },
     {
-      label: 'Overdue',
+      label: "Overdue",
       value: formatCurrency(overdueAmount),
-      icon: '🚨',
-      color: 'bg-red-50 text-red-700',
+      icon: "🚨",
+      color: "bg-red-50 text-red-700",
     },
     {
-      label: 'Total Clients',
+      label: "Total Clients",
       value: clients.length.toString(),
-      icon: '👥',
-      color: 'bg-blue-50 text-blue-700',
+      icon: "👥",
+      color: "bg-blue-50 text-blue-700",
     },
   ];
 
@@ -63,7 +66,7 @@ export default async function DashboardPage() {
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-gray-900">
-          Good to see you, {session?.user?.name?.split(' ')[0]} 👋
+          Good to see you, {session?.user?.name?.split(" ")[0]} 👋
         </h1>
         <p className="text-gray-500 mt-1 text-sm">
           Here's what's happening with your invoices
@@ -77,7 +80,9 @@ export default async function DashboardPage() {
             key={stat.label}
             className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm"
           >
-            <div className={`inline-flex items-center justify-center w-10 h-10 rounded-xl text-lg mb-3 ${stat.color}`}>
+            <div
+              className={`inline-flex items-center justify-center w-10 h-10 rounded-xl text-lg mb-3 ${stat.color}`}
+            >
               {stat.icon}
             </div>
             <div className="text-2xl font-bold text-gray-900">{stat.value}</div>
@@ -129,14 +134,17 @@ export default async function DashboardPage() {
                   <p className="text-sm font-semibold text-gray-900">
                     {formatCurrency(invoice.total)}
                   </p>
-                  <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${
-                    invoice.status === 'paid'
-                      ? 'bg-green-100 text-green-700'
-                      : invoice.status === 'overdue'
-                      ? 'bg-red-100 text-red-700'
-                      : 'bg-yellow-100 text-yellow-700'
-                  }`}>
-                    {invoice.status.charAt(0).toUpperCase() + invoice.status.slice(1)}
+                  <span
+                    className={`text-xs font-medium px-2 py-0.5 rounded-full ${
+                      invoice.status === "paid"
+                        ? "bg-green-100 text-green-700"
+                        : invoice.status === "overdue"
+                          ? "bg-red-100 text-red-700"
+                          : "bg-yellow-100 text-yellow-700"
+                    }`}
+                  >
+                    {invoice.status.charAt(0).toUpperCase() +
+                      invoice.status.slice(1)}
                   </span>
                 </div>
               </Link>
@@ -146,14 +154,16 @@ export default async function DashboardPage() {
       </div>
 
       {/* Quick Actions */}
-      <div className="grid grid-cols-2 gap-4 mt-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
         <Link
           href="/invoices/new"
           className="bg-blue-600 hover:bg-blue-700 text-white rounded-2xl p-5 transition-colors"
         >
           <div className="text-2xl mb-2">➕</div>
           <div className="font-semibold">New Invoice</div>
-          <div className="text-blue-200 text-sm mt-0.5">Create and send instantly</div>
+          <div className="text-blue-200 text-sm mt-0.5">
+            Create and send instantly
+          </div>
         </Link>
         <Link
           href="/clients/new"
@@ -161,7 +171,9 @@ export default async function DashboardPage() {
         >
           <div className="text-2xl mb-2">👤</div>
           <div className="font-semibold text-gray-900">Add Client</div>
-          <div className="text-gray-400 text-sm mt-0.5">Save client details</div>
+          <div className="text-gray-400 text-sm mt-0.5">
+            Save client details
+          </div>
         </Link>
       </div>
     </div>

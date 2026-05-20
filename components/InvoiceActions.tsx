@@ -125,7 +125,7 @@ export default function InvoiceActions({ invoice }: { invoice: Invoice }) {
   const statuses = ['draft', 'pending', 'paid', 'overdue'];
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
       {/* Status updater */}
       <select
         value={invoice.status}
@@ -143,7 +143,7 @@ export default function InvoiceActions({ invoice }: { invoice: Invoice }) {
       {/* Download PDF */}
       <button
         onClick={downloadPDF}
-        className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-sm font-medium transition-colors"
+        className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-sm font-medium transition-colors"
       >
         <span>⬇</span> Download PDF
       </button>
