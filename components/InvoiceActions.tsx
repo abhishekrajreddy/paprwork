@@ -1,9 +1,10 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
+import { LOGO_BASE64 } from "@/lib/logoBase64";
 
 interface InvoiceItem {
   description: string;
@@ -34,8 +35,8 @@ export default function InvoiceActions({ invoice }: { invoice: Invoice }) {
   const updateStatus = async (status: string) => {
     setUpdating(true);
     await fetch(`/api/invoices/${invoice._id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status }),
     });
     router.refresh();
@@ -43,41 +44,60 @@ export default function InvoiceActions({ invoice }: { invoice: Invoice }) {
   };
 
   const downloadPDF = () => {
+    fetch("/logo.b64")
+      .then((res) => res.text())
+      .then((base64) => {
+        generatePDF(base64);
+      })
+      .catch(() => {
+        generatePDF(null);
+      });
+  };
+
+  const generatePDF = (base64: string | null) => {
     const doc = new jsPDF();
 
-    // Header
-    doc.setFontSize(24);
-    doc.setTextColor(37, 99, 235);
-    doc.text('Paprwork', 14, 22);
-
-    doc.setFontSize(10);
-    doc.setTextColor(100, 100, 100);
-    doc.text('Freelance invoicing', 14, 29);
+    // Logo
+    if (base64) {
+      try {
+        doc.addImage(base64, "PNG", 14, 10, 40, 10);
+      } catch {
+        // skip if image fails
+      }
+    }
 
     // Invoice number
     doc.setFontSize(18);
     doc.setTextColor(30, 30, 30);
-    doc.text(invoice.invoiceNumber, 14, 45);
+    doc.text(invoice.invoiceNumber, 14, 28);
 
     // Dates
     doc.setFontSize(10);
     doc.setTextColor(100, 100, 100);
-    doc.text(`Issue Date: ${new Date(invoice.issueDate).toLocaleDateString('en-GB')}`, 14, 55);
-    doc.text(`Due Date: ${new Date(invoice.dueDate).toLocaleDateString('en-GB')}`, 14, 62);
+    doc.text(
+      `Issue Date: ${new Date(invoice.issueDate).toLocaleDateString("en-GB")}`,
+      14,
+      38,
+    );
+    doc.text(
+      `Due Date: ${new Date(invoice.dueDate).toLocaleDateString("en-GB")}`,
+      14,
+      45,
+    );
 
     // Client
     doc.setFontSize(11);
     doc.setTextColor(30, 30, 30);
-    doc.text('Billed To:', 14, 75);
+    doc.text("Billed To:", 14, 58);
     doc.setFontSize(10);
-    doc.text(invoice.clientName, 14, 82);
+    doc.text(invoice.clientName, 14, 65);
     doc.setTextColor(100, 100, 100);
-    doc.text(invoice.clientEmail, 14, 89);
+    doc.text(invoice.clientEmail, 14, 72);
 
     // Line items table
     autoTable(doc, {
-      startY: 100,
-      head: [['Description', 'Qty', 'Rate (£)', 'Amount (£)']],
+      startY: 83,
+      head: [["Description", "Qty", "Rate (£)", "Amount (£)"]],
       body: invoice.items.map((item) => [
         item.description,
         item.quantity.toString(),
@@ -102,27 +122,35 @@ export default function InvoiceActions({ invoice }: { invoice: Invoice }) {
 
     if (invoice.tax > 0) {
       const taxAmount = invoice.total - invoice.subtotal;
-      doc.text(`Tax (${invoice.tax}%): £${taxAmount.toFixed(2)}`, 140, finalY + 7);
+      doc.text(
+        `Tax (${invoice.tax}%): £${taxAmount.toFixed(2)}`,
+        140,
+        finalY + 7,
+      );
     }
 
     doc.setFontSize(12);
     doc.setTextColor(30, 30, 30);
-    doc.setFont('helvetica', 'bold');
-    doc.text(`Total: £${invoice.total.toFixed(2)}`, 140, finalY + (invoice.tax > 0 ? 17 : 10));
+    doc.setFont("helvetica", "bold");
+    doc.text(
+      `Total: £${invoice.total.toFixed(2)}`,
+      140,
+      finalY + (invoice.tax > 0 ? 17 : 10),
+    );
 
     // Notes
     if (invoice.notes) {
-      doc.setFont('helvetica', 'normal');
+      doc.setFont("helvetica", "normal");
       doc.setFontSize(10);
       doc.setTextColor(100, 100, 100);
-      doc.text('Notes:', 14, finalY + 20);
+      doc.text("Notes:", 14, finalY + 20);
       doc.text(invoice.notes, 14, finalY + 27);
     }
 
     doc.save(`${invoice.invoiceNumber}.pdf`);
   };
 
-  const statuses = ['draft', 'pending', 'paid', 'overdue'];
+  const statuses = ["draft", "pending", "paid", "overdue"];
 
   return (
     <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">

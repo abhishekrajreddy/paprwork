@@ -6,6 +6,7 @@ import { formatCurrency, formatDate } from "@/lib/utils";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import InvoiceActions from "@/components/InvoiceActions";
+import Image from "next/image";
 
 export default async function InvoicePage({
   params,
@@ -75,10 +76,28 @@ export default async function InvoicePage({
         <div className="p-6 border-b border-gray-100">
           <div className="flex flex-col sm:flex-row sm:justify-between gap-4">
             <div>
-              <h2 className="text-2xl font-bold text-gray-900">
+              <Image
+                src="/logo_dark_bg.png"
+                alt="Paprwork"
+                width={180}
+                height={36}
+                priority
+                loading="eager"
+                className="hover:opacity-80 transition-opacity block dark:hidden"
+              />
+              <Image
+                src="/logo_white_bg.png"
+                alt="Paprwork"
+                width={180}
+                height={36}
+                priority
+                loading="eager"
+                className="hover:opacity-80 transition-opacity hidden dark:block"
+              />
+              {/* <h2 className="text-2xl font-bold text-gray-900">
                 Papr<span className="text-blue-600">work</span>
               </h2>
-              <p className="text-sm text-gray-400 mt-1">Freelance invoicing</p>
+              <p className="text-sm text-gray-400 mt-1">Freelance invoicing</p> */}
             </div>
             <div className="text-right">
               <p className="text-sm text-gray-500">Invoice Number</p>
