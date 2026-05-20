@@ -79,9 +79,13 @@ export default function Sidebar() {
         {/* Logo */}
         <div className="px-6 py-5 border-b border-gray-100">
           <Link href="/dashboard">
-            <h1 className="text-2xl font-bold text-gray-900 hover:opacity-80 transition-opacity">
-              Papr<span className="text-blue-600">work</span>
-            </h1>
+            <Image
+              src="/logo.png"
+              alt="Paprwork"
+              width={130}
+              height={36}
+              className="hover:opacity-80 transition-opacity"
+            />
           </Link>
           <p className="text-xs text-gray-400 mt-0.5">Freelance invoicing</p>
         </div>
