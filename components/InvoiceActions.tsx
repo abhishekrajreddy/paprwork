@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-import { LOGO_BASE64 } from "@/lib/logoBase64";
 
 interface InvoiceItem {
   description: string;
