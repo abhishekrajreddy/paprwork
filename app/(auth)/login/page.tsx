@@ -30,18 +30,18 @@ export default function LoginPage() {
         {/* Logo */}
         <div className="mb-8 flex flex-col items-center">
           <Image
-            src="/logo_white.png"
+            src="/logo_dark_bg.png"
             alt="Paprwork"
-            width={160}
+            width={250}
             height={44}
             priority
             loading="eager"
             className="mb-3 block dark:hidden"
           />
           <Image
-            src="/logo_dark.png"
+            src="/logo_white_bg.png"
             alt="Paprwork"
-            width={160}
+            width={250}
             height={44}
             priority
             loading="eager"

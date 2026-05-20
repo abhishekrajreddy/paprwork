@@ -77,21 +77,21 @@ export default function Sidebar() {
       {/* ── DESKTOP SIDEBAR ── */}
       <aside className="hidden lg:flex w-64 min-h-screen bg-white border-r border-gray-100 flex-col">
         {/* Logo */}
-        <div className="px-6 py-5 border-b border-gray-100">
+        <div className="px-4 py-3 border-b border-gray-100">
           <Link href="/dashboard">
             <Image
-              src="/logo_white.png"
+              src="/logo_dark_bg.png"
               alt="Paprwork"
-              width={130}
+              width={180}
               height={36}
               priority
               loading="eager"
               className="hover:opacity-80 transition-opacity block dark:hidden"
             />
             <Image
-              src="/logo_dark.png"
+              src="/logo_white_bg.png"
               alt="Paprwork"
-              width={130}
+              width={180}
               height={36}
               priority
               loading="eager"
@@ -104,24 +104,24 @@ export default function Sidebar() {
       </aside>
 
       {/* ── MOBILE TOP NAV ── */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 z-40 bg-white border-b border-gray-100 px-4 py-3 flex items-center justify-between">
+      <div className="lg:hidden fixed top-0 left-0 right-0 z-40 bg-white border-b border-gray-100 py-3 flex items-center justify-between">
         {/* <h1 className="text-xl font-bold text-gray-900">
           Papr<span className="text-blue-600">work</span>
         </h1> */}
         <Link href="/dashboard">
           <Image
-            src="/logo_white.png"
+            src="/logo_mobile_dark_bg.png"
             alt="Paprwork"
-            width={110}
+            width={200}
             height={30}
             priority
             loading="eager"
             className="hover:opacity-80 transition-opacity block dark:hidden"
           />
           <Image
-            src="/logo_dark.png"
+            src="/logo_mobile_white_bg.png"
             alt="Paprwork"
-            width={110}
+            width={200}
             height={30}
             priority
             loading="eager"
@@ -175,18 +175,18 @@ export default function Sidebar() {
           {/* Drawer */}
           <Link href="/dashboard" onClick={() => setMobileOpen(false)}>
             <Image
-              src="/logo_white.png"
+              src="/logo_dark_mobile.png"
               alt="Paprwork"
-              width={90}
+              width={100}
               height={24}
               priority
               loading="eager"
               className="hover:opacity-80 transition-opacity block dark:hidden"
             />
             <Image
-              src="/logo_dark.png"
+              src="/logo_white_mobile.png"
               alt="Paprwork"
-              width={90}
+              width={100}
               height={24}
               priority
               loading="eager"
@@ -194,7 +194,7 @@ export default function Sidebar() {
             />
           </Link>
           <aside className="absolute left-0 top-0 bottom-0 w-72 bg-white flex flex-col shadow-xl">
-            <div className="px-6 py-5 border-b border-gray-100">
+            <div className="px-4 py-3 border-b border-gray-100">
               <h1 className="text-2xl font-bold text-gray-900">
                 Papr<span className="text-blue-600">work</span>
               </h1>
