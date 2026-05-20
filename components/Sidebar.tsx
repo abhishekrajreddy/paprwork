@@ -177,8 +177,8 @@ export default function Sidebar() {
             <Image
               src="/logo_white.png"
               alt="Paprwork"
-              width={120}
-              height={34}
+              width={90}
+              height={24}
               priority
               loading="eager"
               className="hover:opacity-80 transition-opacity block dark:hidden"
@@ -186,8 +186,8 @@ export default function Sidebar() {
             <Image
               src="/logo_dark.png"
               alt="Paprwork"
-              width={120}
-              height={34}
+              width={90}
+              height={24}
               priority
               loading="eager"
               className="hover:opacity-80 transition-opacity hidden dark:block"
